@@ -17,6 +17,12 @@ class GroceryStore(db.Model):
     title = db.Column(db.String(80), nullable=False)
     address = db.Column(db.String(200), nullable=False)
     items = db.relationship('GroceryItem', back_populates='store')
+    
+    def __str__(self):
+        return f'{self.title}'
+
+    def __repr__(self):
+        return f'{self.title}'
 
 class GroceryItem(db.Model):
     """Grocery Item model."""
@@ -32,3 +38,8 @@ class GroceryItem(db.Model):
     store_id = db.Column(
         db.Integer, db.ForeignKey('grocery_store.id'), nullable=False)
     store = db.relationship('GroceryStore', back_populates='items')
+    def __str__(self):
+        return f'{self.name}'
+
+    def __repr__(self):
+        return f'{self.name}'
