@@ -34,7 +34,6 @@ def new_store():
 
 @main.route('/new_item', methods=['GET', 'POST'])
 def new_item():
-    # TODO: Create a GroceryItemForm
     form = GroceryItemForm() 
     if form.validate_on_submit():
         new_grocery_item = GroceryItem(
@@ -53,6 +52,7 @@ def new_item():
 def store_detail(store_id):
     store = GroceryStore.query.get(store_id)
     # TODO: Create a GroceryStoreForm and pass in `obj=store`
+    form = GroceryStoreForm(obj=store)
 
     # TODO: If form was submitted and was valid:
     # - update the GroceryStore object and save it to the database,
