@@ -3,9 +3,7 @@ from datetime import date, datetime
 from grocery_app.models import GroceryStore, GroceryItem
 from grocery_app.forms import GroceryStoreForm, GroceryItemForm
 
-# Import app and db from events_app package so that we can run app
 from grocery_app.extensions import app, db
-
 main = Blueprint("main", __name__)
 
 ##########################################
@@ -22,36 +20,36 @@ def homepage():
 def new_store():
     form = GroceryStoreForm()
     if form.validate_on_submit():
-        new_store = GroceryStore (
-            title = form.title.data,
-            address = form.address.data
+        new_grocery_store = GroceryStore(
+            title=form.title.data,
+            address=form.address.data,
         )
-        db.session.add(new_store)
+        db.session.add(new_grocery_store)
         db.session.commit()
         flash('New store was created successfully.')
-        return redirect(url_for('main.store_detail', store_id=new_store.id))
+        return redirect(url_for('main.store_detail', store_id=new_grocery_store.id)) # might need to change grocery_id later
     return render_template('new_store.html', form=form)
 
 @main.route('/new_item', methods=['GET', 'POST'])
 def new_item():
-    form = GroceryItemForm() 
+    form = GroceryItemForm()
     if form.validate_on_submit():
         new_grocery_item = GroceryItem(
-            name = form.name.data,
-            price = form.price.data,
-            category = form.category.data,
-            photo_url = form.photo_url.data,    
+            name=form.name.data,
+            price=form.price.data,
+            category=form.category.data,
+            photo_url=form.photo_url.data,
+            store=form.store.data
         )
         db.session.add(new_grocery_item)
         db.session.commit()
         flash('New grocery item was created successfully.')
-        return redirect(url_for('main.item_detail', item_id=new_grocery_item.id))
-    return render_template('new_item.html', form = form)
+        return redirect(url_for('main.item_detail', item_id=new_grocery_item.id)) # same as above
+    return render_template('new_item.html', form=form)
 
 @main.route('/store/<store_id>', methods=['GET', 'POST'])
 def store_detail(store_id):
     store = GroceryStore.query.get(store_id)
-    # TODO: Create a GroceryStoreForm and pass in `obj=store`
     form = GroceryStoreForm(obj=store)
     if form.validate_on_submit():
         store.title=form.title.data,
@@ -59,7 +57,7 @@ def store_detail(store_id):
         db.session.commit()
         flash('Store was updated successfully.')
         return redirect(url_for('main.store_detail', store_id=store.id))
-    store = GroceryStore.query.get(store_id)
+        store = GroceryStore.query.get(store_id)
     return render_template('store_detail.html', store=store, form=form)
 
 @main.route('/item/<item_id>', methods=['GET', 'POST'])
@@ -67,13 +65,13 @@ def item_detail(item_id):
     item = GroceryItem.query.get(item_id)
     form = GroceryItemForm(obj=item)
     if form.validate_on_submit():
-        item.name = form.name.data,
-        item.price = form.price.data,
-        item.category = form.category.data,
-        item.photo_url = form.photo_url.data,
+        item.name=form.name.data,
+        item.price=form.price.data,
+        item.category=form.category.data,
+        item.photo_url=form.photo_url.data,
+        item.store=form.store.data
         db.session.commit()
         flash('Item was updated successfully.')
         return redirect(url_for('main.item_detail', item_id=item.id))
-    item = GroceryItem.query.get(item_id)
-    return render_template('item_detail.html', item = item, form = form)
-
+        item = GroceryItem.query.get(item_id)
+    return render_template('item_detail.html', item=item, form=form)
