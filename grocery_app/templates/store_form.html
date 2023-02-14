@@ -1,0 +1,15 @@
+<ul>
+    {% for error in form.title.errors %}
+        <li class="error">{{ error }}</li>
+    {% endfor %}
+    {% for error in form.address.errors %}
+        <li class="error">{{ error }}</li>
+    {% endfor %}
+</ul>
+    {{ form.title.label }}
+    {{ form.title(placeholder="Store Name") }}
+
+    {{ form.address.label }}
+    {{ form.address(placeholder="eg. 123 Commerce St") }}
+
+   {{ form.submit }}
