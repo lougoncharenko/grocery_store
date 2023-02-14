@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Shopping List</h1>
+{% if shopping_list %}
+<ul>
+    {% for item in shopping_list %}
+    <li>
+        <a href="{{ url_for('main.item_detail', item_id=item.id) }}">{{ item.name }}</a>
+        <form method="POST" action="{{ url_for('main.remove_from_shopping_list', item_id=item.id) }}">
+            <button type="submit">Remove from Shopping List</button>
+        </form>
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}
+{% endblock %}
