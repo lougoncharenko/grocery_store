@@ -3,26 +3,11 @@
 
 <h1>New Store</h1>
 
-<form method="POST">
+<form method="POST" action="{{url_for('main.new_store')}}">
+    {{ form.csrf_token }}
+    <legend>Please enter your information:</legend>
     <fieldset>
-        <legend>Please enter your information:</legend>
-        {{ form.title.label }}
-        {{ form.title }}
-        <ul>  
-            {% for error in form.title.errors %}
-            <li class="error">{{ error }}</li>
-            {% endfor %}
-        </ul>
-
-        {{ form.address.label }}
-        {{ form.address }}
-        <ul>
-            {% for error in form.address.errors %}
-            <li class="error">{{ error }}</li>
-            {% endfor %}
-        </ul>
-
-        {{ form.submit }}
+    {% include "store_form.html" %}
     </fieldset>
 </form>
 

@@ -1,5 +1,6 @@
 from sqlalchemy_utils import URLType
 from flask_login import UserMixin
+
 from grocery_app.extensions import db
 from grocery_app.utils import FormEnum
 

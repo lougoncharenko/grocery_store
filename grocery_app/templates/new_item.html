@@ -3,52 +3,11 @@
 
 <h1>New Item</h1>
 
-<form method="POST" >
+<form method="POST" action="{{ url_for('main.new_item') }}">
     {{ form.csrf_token }}
     <fieldset>
-        <legend>Enter an item here</legend>
-
-        {{ form.name.label }}
-        {{ form.name }}
-        <ul>
-          {% for error in form.name.errors %}
-          <li class="error">{{ error }}</li>
-          {% endfor %}
-        </ul>
-       
-        {{ form.price.label }}
-        {{ form.price }}
-        <ul>
-					{% for error in form.price.errors %}
-					<li class="error">{{ error }}</li>
-					{% endfor %}
-        </ul>
-
-        {{ form.category.label }}
-        {{ form.category }}
-				<ul>
-					{% for error in form.category.errors %}
-					<li class="error">{{ error }}</li>
-					{% endfor %}
-				</ul>
-
-        {{ form.photo_url.label }}
-        {{ form.photo_url }}
-				<ul>
-					{% for error in form.photo_url.errors %}
-					<li class="error">{{ error }}</li>
-					{% endfor %}
-				</ul>
-
-        {{ form.store.label }}
-        {{ form.store }}
-				<ul>
-					{% for error in form.store.errors %}
-					<li class="error">{{ error }}</li>
-					{% endfor %}
-				</ul>
-
-        {{ form.submit }}
+        <legend>Please enter your information:</legend>
+        {% include "item_form.html" %}
     </fieldset>
 </form>
 

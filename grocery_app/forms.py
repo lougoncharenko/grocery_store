@@ -1,4 +1,3 @@
-
 from flask_wtf import FlaskForm
 from wtforms import StringField, DateField, SelectField, SubmitField, FloatField, PasswordField
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
@@ -9,45 +8,24 @@ from grocery_app.extensions import bcrypt
 
 class GroceryStoreForm(FlaskForm):
     """Form for adding/updating a GroceryStore."""
-    title = StringField('Grocery Store Name', 
-    validators=[
-        DataRequired(), 
-        Length(min=3, max=80, message="Your title needs to be betweeen 3 and 80 chars")
-    ])
-    address = StringField('Address', 
-    validators=[
-        DataRequired(), 
-        Length(min=3, max=80, message="Your address needs to be betweeen 3 and 80 chars")
-    ])
+    title = StringField('Store Title', validators = [DataRequired()])
+    address = StringField('Store Address', validators = [DataRequired()])
     submit = SubmitField('Submit')
 
 class GroceryItemForm(FlaskForm):
     """Form for adding/updating a GroceryItem."""
-    name = StringField('Grocery Item', 
-    validators=[
-        DataRequired(), 
-        Length(min=3, max=80, message="Your Grocery item needs to be betweeen 3 and 80 chars")
-    ])
-    price = FloatField ("Price    ",
-    validators=[
-        DataRequired()]
-    )
-    category = SelectField('Category',
-    choices = ItemCategory.choices()
-    )
-    photo_url = StringField('Photo',
-     validators=[
-        DataRequired() 
-     ]
-    )
-    store = QuerySelectField('Store', query_factory=lambda: GroceryStore.query, allow_blank=False)
+    name = StringField('Item Name', validators=[DataRequired()])
+    price = FloatField('Price', validators=[DataRequired()])
+    category = SelectField('Category', choices=ItemCategory.choices())
+    photo_url = StringField('Photo (URL)', validators=[DataRequired()])
+    store = QuerySelectField('Store', query_factory= lambda: GroceryStore.query, get_label='title', allow_blank=False)
     submit = SubmitField('Submit')
 
-    class SignUpForm(FlaskForm):
-        """Form for adding a user."""
-        username = StringField('Username', validators=[DataRequired(), Length(min=3, max=80)])
-        password = StringField('Password', validators=[DataRequired(), Length(min=3, max=80)])
-        submit = SubmitField('Sign Up')
+class SignUpForm(FlaskForm):
+    """Form for adding a user."""
+    username = StringField('Username', validators=[DataRequired(), Length(min=3, max=80)])
+    password = StringField('Password', validators=[DataRequired(), Length(min=3, max=80)])
+    submit = SubmitField('Sign Up')
 
     def validate_username(self, username):
         user = User.query.filter_by(username=username.data).first()
